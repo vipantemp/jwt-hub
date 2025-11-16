@@ -3,14 +3,14 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 import { JwtInput } from "@/components/JwtInput";
 import { DecodedHeader } from "@/components/DecodedHeader";
 import { DecodedPayload } from "@/components/DecodedPayload";
-import { SignaturePanel } from "@/components/SignaturePanel";
 import { VerificationSection } from "@/components/VerificationSection";
 import { HistorySidebar } from "@/components/HistorySidebar";
+import { SaveHistoryDialog } from "@/components/SaveHistoryDialog";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { History, Trash2, Shield } from "lucide-react";
 import { decodeToken, verifyToken, encodeToken } from "@/lib/jwt-utils";
-import { DecodedJwt, JwtHistoryItem, Algorithm } from "@/types/jwt";
+import { DecodedJwt, JwtHistoryItem, Algorithm, JwtPayload } from "@/types/jwt";
 
 const SAMPLE_JWT =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOjE3MzIwNTYwMDB9.4Adcj0vt4z7hFLWKZOFS8Y8lKz3_tJKGnJ9qjh_XZQM";
@@ -26,6 +26,8 @@ const Index = () => {
   }>();
   const [history, setHistory] = useState<JwtHistoryItem[]>([]);
   const [historyOpen, setHistoryOpen] = useState(false);
+  const [saveDialogOpen, setSaveDialogOpen] = useState(false);
+  const [highlightSection, setHighlightSection] = useState<"header" | "payload" | "signature" | null>(null);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -142,11 +144,12 @@ const Index = () => {
     }
   };
 
-  const saveToHistory = () => {
+  const saveToHistory = (name: string) => {
     if (!decoded) return;
 
     const newItem: JwtHistoryItem = {
       id: Date.now().toString(),
+      name,
       token,
       decoded,
       timestamp: Date.now(),
@@ -159,8 +162,23 @@ const Index = () => {
 
     toast({
       title: "Saved to History",
-      description: "JWT saved successfully",
+      description: `JWT saved as "${name}"`,
     });
+  };
+
+  const handlePayloadChange = async (newPayload: JwtPayload) => {
+    if (!decoded) return;
+
+    try {
+      const newToken = await encodeToken(decoded.header, newPayload, secret);
+      setToken(newToken);
+    } catch (error) {
+      toast({
+        title: "Update Failed",
+        description: "Could not generate new token",
+        variant: "destructive",
+      });
+    }
   };
 
   const loadFromHistory = (item: JwtHistoryItem) => {
@@ -238,13 +256,25 @@ const Index = () => {
 
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8">
-        <div className="grid lg:grid-cols-3 gap-6">
-          {/* Left Column - Input & Verification */}
-          <div className="lg:col-span-1 space-y-6">
-            <JwtInput value={token} onChange={setToken} />
-            
+        {/* Full Width JWT Input */}
+        <div className="mb-6">
+          <JwtInput 
+            value={token} 
+            onChange={setToken}
+            highlightSection={highlightSection}
+          />
+        </div>
+
+        <div className="grid lg:grid-cols-12 gap-6">
+          {/* Left Column - Header & Verification */}
+          <div className="lg:col-span-4 space-y-6">
             {decoded && (
               <>
+                <DecodedHeader
+                  header={decoded.header}
+                  onAlgorithmChange={handleAlgorithmChange}
+                  onHover={(hovered) => setHighlightSection(hovered ? "header" : null)}
+                />
                 <VerificationSection
                   secret={secret}
                   algorithm={algorithm}
@@ -254,28 +284,23 @@ const Index = () => {
                   verificationResult={verificationResult}
                   isExpired={isExpired}
                 />
-                <Button onClick={saveToHistory} className="w-full">
+                <Button onClick={() => setSaveDialogOpen(true)} className="w-full">
                   Save to History
                 </Button>
               </>
             )}
           </div>
 
-          {/* Right Column - Decoded Panels */}
-          <div className="lg:col-span-2 space-y-6">
+          {/* Right Column - Payload Panel */}
+          <div className="lg:col-span-8 space-y-6">
             {decoded ? (
-              <>
-                <DecodedHeader
-                  header={decoded.header}
-                  onAlgorithmChange={handleAlgorithmChange}
-                />
-                <DecodedPayload
-                  payload={decoded.payload}
-                  onClaimChange={handleClaimChange}
-                  onApplySuggestions={handleApplySuggestions}
-                />
-                <SignaturePanel signature={decoded.signature} />
-              </>
+              <DecodedPayload
+                payload={decoded.payload}
+                onClaimChange={handleClaimChange}
+                onApplySuggestions={handleApplySuggestions}
+                onPayloadChange={handlePayloadChange}
+                onHover={(hovered) => setHighlightSection(hovered ? "payload" : null)}
+              />
             ) : (
               <div className="flex items-center justify-center h-96 glass-card rounded-lg">
                 <div className="text-center space-y-3">
@@ -301,6 +326,13 @@ const Index = () => {
         onClear={clearHistory}
         isOpen={historyOpen}
         onClose={() => setHistoryOpen(false)}
+      />
+
+      {/* Save Dialog */}
+      <SaveHistoryDialog
+        open={saveDialogOpen}
+        onOpenChange={setSaveDialogOpen}
+        onSave={saveToHistory}
       />
 
       {/* Overlay */}

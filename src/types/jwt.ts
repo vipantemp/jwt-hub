@@ -28,6 +28,7 @@ export interface DecodedJwt {
 
 export interface JwtHistoryItem {
   id: string;
+  name: string;
   token: string;
   decoded: DecodedJwt;
   timestamp: number;

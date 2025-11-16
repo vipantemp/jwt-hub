@@ -1,10 +1,11 @@
+import { useState } from "react";
 import { Card } from "./ui/card";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
-import { Shield, CheckCircle2, XCircle, AlertTriangle } from "lucide-react";
+import { Shield, CheckCircle2, XCircle, AlertTriangle, Eye, EyeOff } from "lucide-react";
 import { Algorithm } from "@/types/jwt";
 
 interface VerificationSectionProps {
@@ -33,6 +34,8 @@ export function VerificationSection({
   verificationResult,
   isExpired,
 }: VerificationSectionProps) {
+  const [showSecret, setShowSecret] = useState(false);
+
   return (
     <Card className="glass-card p-6">
       <div className="flex items-center gap-2 mb-4">
@@ -45,14 +48,29 @@ export function VerificationSection({
           <Label htmlFor="secret-input" className="text-sm mb-2 block">
             Secret Key
           </Label>
-          <Input
-            id="secret-input"
-            type="password"
-            value={secret}
-            onChange={(e) => onSecretChange(e.target.value)}
-            placeholder="Enter your secret key"
-            className="font-mono"
-          />
+          <div className="relative">
+            <Input
+              id="secret-input"
+              type={showSecret ? "text" : "password"}
+              value={secret}
+              onChange={(e) => onSecretChange(e.target.value)}
+              placeholder="Enter your secret key"
+              className="font-mono pr-10"
+            />
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              className="absolute right-0 top-0 h-full px-3 hover:bg-transparent"
+              onClick={() => setShowSecret(!showSecret)}
+            >
+              {showSecret ? (
+                <EyeOff className="h-4 w-4 text-muted-foreground" />
+              ) : (
+                <Eye className="h-4 w-4 text-muted-foreground" />
+              )}
+            </Button>
+          </div>
         </div>
 
         <div>
