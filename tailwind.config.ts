@@ -57,6 +57,29 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        "header-panel": {
+          DEFAULT: "hsl(var(--header-panel))",
+          foreground: "hsl(var(--header-panel-foreground))",
+          bg: "hsl(var(--header-panel-bg))",
+        },
+        "payload-panel": {
+          DEFAULT: "hsl(var(--payload-panel))",
+          foreground: "hsl(var(--payload-panel-foreground))",
+          bg: "hsl(var(--payload-panel-bg))",
+        },
+        "signature-panel": {
+          DEFAULT: "hsl(var(--signature-panel))",
+          foreground: "hsl(var(--signature-panel-foreground))",
+          bg: "hsl(var(--signature-panel-bg))",
+        },
+        success: {
+          DEFAULT: "hsl(var(--success))",
+          foreground: "hsl(var(--success-foreground))",
+        },
+        warning: {
+          DEFAULT: "hsl(var(--warning))",
+          foreground: "hsl(var(--warning-foreground))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
