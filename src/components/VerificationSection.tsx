@@ -5,8 +5,9 @@ import { Label } from "./ui/label";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
-import { Shield, CheckCircle2, XCircle, AlertTriangle, Eye, EyeOff } from "lucide-react";
+import { Shield, CheckCircle2, XCircle, AlertTriangle, Eye, EyeOff, Code } from "lucide-react";
 import { Algorithm } from "@/types/jwt";
+import { Switch } from "./ui/switch";
 
 interface VerificationSectionProps {
   secret: string;
@@ -16,6 +17,7 @@ interface VerificationSectionProps {
   onVerify: () => void;
   verificationResult?: { valid: boolean; error?: string };
   isExpired?: boolean;
+  onHover?: (hovered: boolean) => void;
 }
 
 const ALGORITHMS: Algorithm[] = [
@@ -33,11 +35,33 @@ export function VerificationSection({
   onVerify,
   verificationResult,
   isExpired,
+  onHover,
 }: VerificationSectionProps) {
   const [showSecret, setShowSecret] = useState(false);
+  const [isBase64, setIsBase64] = useState(false);
+
+  const handleSecretChange = (value: string) => {
+    if (isBase64) {
+      // Convert from base64 to string
+      try {
+        const decoded = atob(value);
+        onSecretChange(decoded);
+      } catch {
+        onSecretChange(value);
+      }
+    } else {
+      onSecretChange(value);
+    }
+  };
+
+  const displaySecret = isBase64 && secret ? btoa(secret) : secret;
 
   return (
-    <Card className="glass-card p-6">
+    <Card 
+      className="glass-card p-6 transition-all hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:scale-[1.02] cursor-pointer"
+      onMouseEnter={() => onHover?.(true)}
+      onMouseLeave={() => onHover?.(false)}
+    >
       <div className="flex items-center gap-2 mb-4">
         <Shield className="h-5 w-5 text-primary" />
         <h3 className="text-lg font-bold">Verification</h3>
@@ -45,15 +69,27 @@ export function VerificationSection({
 
       <div className="space-y-4">
         <div>
-          <Label htmlFor="secret-input" className="text-sm mb-2 block">
-            Secret Key
-          </Label>
+          <div className="flex items-center justify-between mb-2">
+            <Label htmlFor="secret-input" className="text-sm">
+              Secret Key
+            </Label>
+            <div className="flex items-center gap-2">
+              <Label htmlFor="base64-toggle" className="text-xs text-muted-foreground cursor-pointer">
+                Base64
+              </Label>
+              <Switch
+                id="base64-toggle"
+                checked={isBase64}
+                onCheckedChange={setIsBase64}
+              />
+            </div>
+          </div>
           <div className="relative">
             <Input
               id="secret-input"
               type={showSecret ? "text" : "password"}
-              value={secret}
-              onChange={(e) => onSecretChange(e.target.value)}
+              value={displaySecret}
+              onChange={(e) => handleSecretChange(e.target.value)}
               placeholder="Enter your secret key"
               className="font-mono pr-10"
             />
