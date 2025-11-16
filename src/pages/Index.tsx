@@ -267,7 +267,7 @@ const Index = () => {
 
         <div className="grid lg:grid-cols-12 gap-6">
           {/* Left Column - Header & Verification */}
-          <div className="lg:col-span-4 space-y-6">
+          <div className="lg:col-span-4 grid md:grid-cols-2 lg:grid-cols-1 gap-6">
             {decoded && (
               <>
                 <DecodedHeader
@@ -283,8 +283,9 @@ const Index = () => {
                   onVerify={handleVerify}
                   verificationResult={verificationResult}
                   isExpired={isExpired}
+                  onHover={(hovered) => setHighlightSection(hovered ? "signature" : null)}
                 />
-                <Button onClick={() => setSaveDialogOpen(true)} className="w-full">
+                <Button onClick={() => setSaveDialogOpen(true)} className="w-full md:col-span-2 lg:col-span-1">
                   Save to History
                 </Button>
               </>

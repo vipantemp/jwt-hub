@@ -30,7 +30,7 @@ export function DecodedPayload({
 
   return (
     <Card 
-      className="glass-card p-6 border-l-4 border-l-payload-panel transition-all cursor-pointer"
+      className="glass-card p-6 border-l-4 border-l-payload-panel transition-all cursor-pointer hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:scale-[1.02]"
       onMouseEnter={() => onHover?.(true)}
       onMouseLeave={() => onHover?.(false)}
     >
@@ -79,18 +79,22 @@ export function DecodedPayload({
         </div>
       ) : (
         <>
-          <div className="space-y-4 mb-4">
-            {(["iat", "nbf", "exp"] as const).map((claim) => (
-              <ClaimEditor
-                key={claim}
-                claim={claim}
-                value={payload[claim]}
-                onChange={(value) => onClaimChange(claim, value)}
-              />
-            ))}
-          </div>
+          {hasStandardClaims && (
+            <div className="space-y-4 mb-4">
+              {(["iat", "nbf", "exp"] as const)
+                .filter((claim) => payload[claim] !== undefined)
+                .map((claim) => (
+                  <ClaimEditor
+                    key={claim}
+                    claim={claim}
+                    value={payload[claim]!}
+                    onChange={(value) => onClaimChange(claim, value)}
+                  />
+                ))}
+            </div>
+          )}
 
-          <div className="mt-6">
+          <div className={hasStandardClaims ? "mt-6" : ""}>
             <h4 className="text-sm font-semibold mb-3">All Claims</h4>
             <JsonDisplay data={payload} panelType="payload" />
           </div>

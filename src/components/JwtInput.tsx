@@ -9,6 +9,16 @@ interface JwtInputProps {
   highlightSection?: "header" | "payload" | "signature" | null;
 }
 
+const getHighlightClass = (section: "header" | "payload" | "signature" | null) => {
+  if (!section) return "";
+  const colors = {
+    header: "bg-red-100 dark:bg-red-950/30",
+    payload: "bg-pink-100 dark:bg-pink-950/30",
+    signature: "bg-green-100 dark:bg-green-950/30"
+  };
+  return colors[section];
+};
+
 export function JwtInput({ value, onChange, highlightSection }: JwtInputProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -48,7 +58,7 @@ export function JwtInput({ value, onChange, highlightSection }: JwtInputProps) {
         placeholder="Paste your JWT token here (e.g., eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...)"
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="min-h-[120px] font-mono text-sm resize-none"
+        className={`min-h-[120px] font-mono text-sm resize-none transition-colors ${getHighlightClass(highlightSection)}`}
       />
     </div>
   );

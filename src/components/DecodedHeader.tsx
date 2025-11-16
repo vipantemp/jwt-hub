@@ -20,7 +20,7 @@ const ALGORITHMS: Algorithm[] = [
 export function DecodedHeader({ header, onAlgorithmChange, onHover }: DecodedHeaderProps) {
   return (
     <Card 
-      className="glass-card p-6 border-l-4 border-l-header-panel transition-all cursor-pointer"
+      className="glass-card p-6 border-l-4 border-l-header-panel transition-all cursor-pointer hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:scale-[1.02]"
       onMouseEnter={() => onHover?.(true)}
       onMouseLeave={() => onHover?.(false)}
     >
