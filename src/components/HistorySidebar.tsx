@@ -63,6 +63,9 @@ export function HistorySidebar({
                   <div className="space-y-2">
                     <div className="flex items-start justify-between gap-2">
                       <div className="flex-1 min-w-0">
+                        <p className="text-sm font-semibold mb-1">
+                          {item.name}
+                        </p>
                         <p className="text-xs text-muted-foreground mb-1">
                           {new Date(item.timestamp).toLocaleString()}
                         </p>
