@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { JwtInput } from "@/components/JwtInput";
 import { DecodedHeader } from "@/components/DecodedHeader";
@@ -8,7 +9,7 @@ import { HistorySidebar } from "@/components/HistorySidebar";
 import { SaveHistoryDialog } from "@/components/SaveHistoryDialog";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { History, Trash2, Shield } from "lucide-react";
+import { History, Trash2, Shield, Code2 } from "lucide-react";
 import { decodeToken, verifyToken, encodeToken } from "@/lib/jwt-utils";
 import { DecodedJwt, JwtHistoryItem, Algorithm, JwtPayload } from "@/types/jwt";
 
@@ -258,6 +259,12 @@ const Index = () => {
                 <Trash2 className="h-4 w-4 mr-2" />
                 Clear
               </Button>
+              <Link to="/code-examples">
+                <Button variant="outline" size="sm">
+                  <Code2 className="h-4 w-4 mr-2" />
+                  Code
+                </Button>
+              </Link>
               <ThemeToggle />
             </div>
           </div>
