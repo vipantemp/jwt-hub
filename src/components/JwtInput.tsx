@@ -55,10 +55,10 @@ export function JwtInput({ value, onChange, highlightSection }: JwtInputProps) {
       <Textarea
         ref={textareaRef}
         id="jwt-input"
-        placeholder="Paste your JWT token here (e.g., eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...)"
+        placeholder="Paste your JWT token here (Bearer token supported, e.g., Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...)"
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className={`min-h-[120px] font-mono text-sm resize-none transition-colors ${getHighlightClass(highlightSection)}`}
+        className={`min-h-[140px] font-mono text-lg md:text-xl leading-relaxed resize-none transition-colors ${getHighlightClass(highlightSection)}`}
       />
     </div>
   );

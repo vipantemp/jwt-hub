@@ -33,10 +33,6 @@ export const verifyToken = async (
   algorithm: Algorithm
 ): Promise<{ valid: boolean; error?: string }> => {
   try {
-    if (algorithm === "none") {
-      return { valid: false, error: "Algorithm 'none' is not secure" };
-    }
-
     const secretKey = new TextEncoder().encode(secret);
     await jwtVerify(token, secretKey, { algorithms: [algorithm] });
     return { valid: true };
