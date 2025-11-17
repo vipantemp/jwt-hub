@@ -12,9 +12,7 @@ import { Switch } from "./ui/switch";
 interface VerificationSectionProps {
   secret: string;
   algorithm: Algorithm;
-  publicKey: string;
   onSecretChange: (secret: string) => void;
-  onPublicKeyChange: (key: string) => void;
   onAlgorithmChange: (alg: Algorithm) => void;
   onVerify: () => void;
   verificationResult?: { valid: boolean; error?: string };
@@ -32,9 +30,7 @@ const ALGORITHMS: Algorithm[] = [
 export function VerificationSection({
   secret,
   algorithm,
-  publicKey,
   onSecretChange,
-  onPublicKeyChange,
   onAlgorithmChange,
   onVerify,
   verificationResult,
@@ -45,28 +41,20 @@ export function VerificationSection({
   const [isBase64, setIsBase64] = useState(false);
 
   const handleSecretChange = (value: string) => {
-    onSecretChange(value);
-  };
-
-  const displaySecret = isBase64 && secret ? (() => {
-    try {
-      return btoa(secret);
-    } catch {
-      return secret;
-    }
-  })() : secret;
-
-  const handleBase64Toggle = (checked: boolean) => {
-    setIsBase64(checked);
-    if (checked && secret) {
-      // When enabling base64, encode the current secret
+    if (isBase64) {
+      // Convert from base64 to string
       try {
-        onSecretChange(secret);
-      } catch (error) {
-        console.error("Base64 encoding error:", error);
+        const decoded = atob(value);
+        onSecretChange(decoded);
+      } catch {
+        onSecretChange(value);
       }
+    } else {
+      onSecretChange(value);
     }
   };
+
+  const displaySecret = isBase64 && secret ? btoa(secret) : secret;
 
   return (
     <Card 
@@ -80,12 +68,11 @@ export function VerificationSection({
       </div>
 
       <div className="space-y-4">
-        {(algorithm.startsWith("HS")) && (
-          <div>
-            <div className="flex items-center justify-between mb-2">
-              <Label htmlFor="secret-input" className="text-sm">
-                Secret Key
-              </Label>
+        <div>
+          <div className="flex items-center justify-between mb-2">
+            <Label htmlFor="secret-input" className="text-sm">
+              Secret Key
+            </Label>
             <div className="flex items-center gap-2">
               <Label htmlFor="base64-toggle" className="text-xs text-muted-foreground cursor-pointer">
                 Base64
@@ -93,7 +80,7 @@ export function VerificationSection({
               <Switch
                 id="base64-toggle"
                 checked={isBase64}
-                onCheckedChange={handleBase64Toggle}
+                onCheckedChange={setIsBase64}
               />
             </div>
           </div>
@@ -102,19 +89,7 @@ export function VerificationSection({
               id="secret-input"
               type={showSecret ? "text" : "password"}
               value={displaySecret}
-              onChange={(e) => {
-                const value = e.target.value;
-                if (isBase64) {
-                  try {
-                    const decoded = atob(value);
-                    onSecretChange(decoded);
-                  } catch {
-                    onSecretChange(value);
-                  }
-                } else {
-                  onSecretChange(value);
-                }
-              }}
+              onChange={(e) => handleSecretChange(e.target.value)}
               placeholder="Enter your secret key"
               className="font-mono pr-10"
             />
@@ -133,22 +108,6 @@ export function VerificationSection({
             </Button>
           </div>
         </div>
-        )}
-
-        {(algorithm.startsWith("RS") || algorithm.startsWith("ES")) && (
-          <div>
-            <Label htmlFor="public-key-input" className="text-sm mb-2 block">
-              Public Key (PEM format)
-            </Label>
-            <textarea
-              id="public-key-input"
-              value={publicKey}
-              onChange={(e) => onPublicKeyChange(e.target.value)}
-              placeholder="-----BEGIN PUBLIC KEY-----&#10;...&#10;-----END PUBLIC KEY-----"
-              className="w-full min-h-[100px] font-mono text-xs p-3 border rounded-md bg-background resize-none"
-            />
-          </div>
-        )}
 
         <div>
           <Label htmlFor="algorithm-select" className="text-sm mb-2 block">

@@ -19,7 +19,6 @@ const Index = () => {
   const [token, setToken] = useState(SAMPLE_JWT);
   const [decoded, setDecoded] = useState<DecodedJwt | null>(null);
   const [secret, setSecret] = useState("your-secret-key");
-  const [publicKey, setPublicKey] = useState("");
   const [algorithm, setAlgorithm] = useState<Algorithm>("HS256");
   const [verificationResult, setVerificationResult] = useState<{
     valid: boolean;
@@ -40,15 +39,7 @@ const Index = () => {
 
   useEffect(() => {
     if (token.trim()) {
-      // Strip "Bearer " prefix if present
-      const cleanToken = token.trim().replace(/^Bearer\s+/i, "");
-      
-      if (cleanToken !== token) {
-        setToken(cleanToken);
-        return;
-      }
-      
-      const result = decodeToken(cleanToken);
+      const result = decodeToken(token);
       if (result) {
         setDecoded(result);
         setAlgorithm(result.header.alg as Algorithm);
@@ -68,7 +59,7 @@ const Index = () => {
   const handleVerify = async () => {
     if (!token.trim()) return;
 
-    const result = await verifyToken(token, secret, algorithm, publicKey);
+    const result = await verifyToken(token, secret, algorithm);
     setVerificationResult(result);
 
     toast({
@@ -287,9 +278,7 @@ const Index = () => {
                 <VerificationSection
                   secret={secret}
                   algorithm={algorithm}
-                  publicKey={publicKey}
                   onSecretChange={setSecret}
-                  onPublicKeyChange={setPublicKey}
                   onAlgorithmChange={handleAlgorithmChange}
                   onVerify={handleVerify}
                   verificationResult={verificationResult}

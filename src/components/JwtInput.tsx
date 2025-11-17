@@ -9,31 +9,14 @@ interface JwtInputProps {
   highlightSection?: "header" | "payload" | "signature" | null;
 }
 
-const getHighlightStyle = (section: "header" | "payload" | "signature" | null, value: string) => {
-  if (!section || !value) return {};
-  
-  const parts = value.split(".");
-  if (parts.length !== 3) return {};
-
+const getHighlightClass = (section: "header" | "payload" | "signature" | null) => {
+  if (!section) return "";
   const colors = {
-    header: { light: "#ff6b6b", dark: "#ff8787" },
-    payload: { light: "#4dabf7", dark: "#74c0fc" },
-    signature: { light: "#51cf66", dark: "#8ce99a" }
+    header: "bg-red-100 dark:bg-red-950/30",
+    payload: "bg-pink-100 dark:bg-pink-950/30",
+    signature: "bg-green-100 dark:bg-green-950/30"
   };
-
-  return {
-    background: `linear-gradient(to right, 
-      ${section === "header" ? colors.header.light : "transparent"} 0%, 
-      ${section === "header" ? colors.header.light : "transparent"} ${(parts[0].length / value.length) * 100}%,
-      ${section === "payload" ? colors.payload.light : "transparent"} ${(parts[0].length / value.length) * 100}%,
-      ${section === "payload" ? colors.payload.light : "transparent"} ${((parts[0].length + parts[1].length + 1) / value.length) * 100}%,
-      ${section === "signature" ? colors.signature.light : "transparent"} ${((parts[0].length + parts[1].length + 1) / value.length) * 100}%,
-      ${section === "signature" ? colors.signature.light : "transparent"} 100%
-    )`,
-    WebkitBackgroundClip: "text",
-    WebkitTextFillColor: section ? "transparent" : "inherit",
-    backgroundClip: "text",
-  };
+  return colors[section];
 };
 
 export function JwtInput({ value, onChange, highlightSection }: JwtInputProps) {
@@ -75,8 +58,7 @@ export function JwtInput({ value, onChange, highlightSection }: JwtInputProps) {
         placeholder="Paste your JWT token here (e.g., eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...)"
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="min-h-[120px] font-mono text-lg resize-none transition-all"
-        style={getHighlightStyle(highlightSection, value)}
+        className={`min-h-[120px] font-mono text-sm resize-none transition-colors ${getHighlightClass(highlightSection)}`}
       />
     </div>
   );
