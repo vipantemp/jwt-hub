@@ -39,10 +39,20 @@ const Index = () => {
 
   useEffect(() => {
     if (token.trim()) {
-      const result = decodeToken(token);
+      // Extract token from Bearer prefix if present
+      let cleanToken = token.trim();
+      if (cleanToken.toLowerCase().startsWith('bearer ')) {
+        cleanToken = cleanToken.substring(7).trim();
+      }
+      
+      const result = decodeToken(cleanToken);
       if (result) {
         setDecoded(result);
         setAlgorithm(result.header.alg as Algorithm);
+        // Update token state with cleaned token if Bearer prefix was present
+        if (cleanToken !== token.trim()) {
+          setToken(cleanToken);
+        }
       } else {
         setDecoded(null);
         toast({

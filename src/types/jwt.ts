@@ -36,7 +36,4 @@ export interface JwtHistoryItem {
 }
 
 export type Algorithm = 
-  | "HS256" | "HS384" | "HS512"
-  | "RS256" | "RS384" | "RS512"
-  | "ES256" | "ES384" | "ES512"
-  | "none";
+  | "HS256" | "HS384" | "HS512";
