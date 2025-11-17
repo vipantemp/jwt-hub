@@ -30,13 +30,39 @@ export const decodeToken = (token: string): DecodedJwt | null => {
 export const verifyToken = async (
   token: string,
   secret: string,
-  algorithm: Algorithm
+  algorithm: Algorithm,
+  publicKey?: string
 ): Promise<{ valid: boolean; error?: string }> => {
   try {
     if (algorithm === "none") {
       return { valid: false, error: "Algorithm 'none' is not secure" };
     }
 
+    // For RS and ES algorithms, use public key if provided
+    if (algorithm.startsWith("RS") || algorithm.startsWith("ES")) {
+      if (!publicKey) {
+        return { valid: false, error: `${algorithm} requires a public key` };
+      }
+      
+      try {
+        // Import the public key
+        const pemKey = publicKey.includes("BEGIN") ? publicKey : `-----BEGIN PUBLIC KEY-----\n${publicKey}\n-----END PUBLIC KEY-----`;
+        const cryptoKey = await crypto.subtle.importKey(
+          "spki",
+          new TextEncoder().encode(pemKey).buffer,
+          { name: algorithm.startsWith("RS") ? "RSASSA-PKCS1-v1_5" : "ECDSA", hash: { name: `SHA-${algorithm.slice(2)}` } },
+          false,
+          ["verify"]
+        );
+        
+        await jwtVerify(token, cryptoKey, { algorithms: [algorithm] });
+        return { valid: true };
+      } catch (error: any) {
+        return { valid: false, error: error.message || "Public key verification failed" };
+      }
+    }
+
+    // For HS algorithms, use secret key
     const secretKey = new TextEncoder().encode(secret);
     await jwtVerify(token, secretKey, { algorithms: [algorithm] });
     return { valid: true };
