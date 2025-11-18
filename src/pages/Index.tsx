@@ -10,6 +10,7 @@ import { SaveHistoryDialog } from "@/components/SaveHistoryDialog";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { History, Trash2, Shield, Code2 } from "lucide-react";
+import { ShareDropdown } from "@/components/ShareDropdown";
 import { decodeToken, verifyToken, encodeToken } from "@/lib/jwt-utils";
 import { DecodedJwt, JwtHistoryItem, Algorithm, JwtPayload } from "@/types/jwt";
 
@@ -265,6 +266,7 @@ const Index = () => {
                   Code
                 </Button>
               </Link>
+              <ShareDropdown token={token} disabled={!decoded} />
               <ThemeToggle />
             </div>
           </div>
