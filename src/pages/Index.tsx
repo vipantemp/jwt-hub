@@ -7,12 +7,23 @@ import { DecodedPayload } from "@/components/DecodedPayload";
 import { VerificationSection } from "@/components/VerificationSection";
 import { HistorySidebar } from "@/components/HistorySidebar";
 import { SaveHistoryDialog } from "@/components/SaveHistoryDialog";
+import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { History, Trash2, Shield, Code2 } from "lucide-react";
+import { History, Trash2, Shield, Code2, Menu } from "lucide-react";
 import { ShareDropdown } from "@/components/ShareDropdown";
 import { decodeToken, verifyToken, encodeToken } from "@/lib/jwt-utils";
 import { DecodedJwt, JwtHistoryItem, Algorithm, JwtPayload } from "@/types/jwt";
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuList,
+} from "@/components/ui/navigation-menu";
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 
 const SAMPLE_JWT =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOjE3MzIwNTYwMDB9.4Adcj0vt4z7hFLWKZOFS8Y8lKz3_tJKGnJ9qjh_XZQM";
@@ -231,50 +242,157 @@ const Index = () => {
     decoded?.payload.exp && Math.floor(Date.now() / 1000) > decoded.payload.exp;
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
+    <div className="min-h-screen bg-background flex flex-col">
+      {/* Main Header */}
       <header className="sticky top-0 z-40 border-b border-border/50 bg-background/80 backdrop-blur-lg">
-        <div className="container mx-auto px-4 py-4">
+        <div className="container mx-auto px-4 py-3">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
+            {/* Logo */}
+            <Link to="/" className="flex items-center gap-3">
               <Shield className="h-8 w-8 text-primary" />
-              <div>
+              <div className="hidden sm:block">
                 <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
                   JWT Decoder & Verifier
                 </h1>
-                <p className="text-xs text-muted-foreground">
-                  Advanced token analysis and verification
-                </p>
               </div>
+            </Link>
+
+            {/* Desktop Navigation */}
+            <NavigationMenu className="hidden lg:flex">
+              <NavigationMenuList className="gap-1">
+                <NavigationMenuItem>
+                  <Link 
+                    to="/" 
+                    className="px-4 py-2 text-sm font-medium text-foreground hover:text-primary transition-colors relative group"
+                  >
+                    Home
+                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
+                  </Link>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <Link 
+                    to="/code-examples" 
+                    className="px-4 py-2 text-sm font-medium text-foreground hover:text-primary transition-colors relative group"
+                  >
+                    Code Examples
+                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
+                  </Link>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <Link 
+                    to="/about-us" 
+                    className="px-4 py-2 text-sm font-medium text-foreground hover:text-primary transition-colors relative group"
+                  >
+                    About
+                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
+                  </Link>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <Link 
+                    to="/contact-us" 
+                    className="px-4 py-2 text-sm font-medium text-foreground hover:text-primary transition-colors relative group"
+                  >
+                    Contact
+                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
+                  </Link>
+                </NavigationMenuItem>
+              </NavigationMenuList>
+            </NavigationMenu>
+
+            {/* Right Side Actions */}
+            <div className="flex items-center gap-2">
+              <ThemeToggle />
+              
+              {/* Mobile Menu */}
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button variant="ghost" size="icon" className="lg:hidden">
+                    <Menu className="h-5 w-5" />
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="right" className="w-64">
+                  <nav className="flex flex-col gap-4 mt-8">
+                    <Link 
+                      to="/" 
+                      className="text-lg font-medium hover:text-primary transition-colors"
+                    >
+                      Home
+                    </Link>
+                    <Link 
+                      to="/code-examples" 
+                      className="text-lg font-medium hover:text-primary transition-colors"
+                    >
+                      Code Examples
+                    </Link>
+                    <Link 
+                      to="/about-us" 
+                      className="text-lg font-medium hover:text-primary transition-colors"
+                    >
+                      About Us
+                    </Link>
+                    <Link 
+                      to="/contact-us" 
+                      className="text-lg font-medium hover:text-primary transition-colors"
+                    >
+                      Contact Us
+                    </Link>
+                    <div className="border-t border-border pt-4 mt-4">
+                      <Link 
+                        to="/privacy-policy" 
+                        className="text-sm text-muted-foreground hover:text-primary transition-colors block mb-2"
+                      >
+                        Privacy Policy
+                      </Link>
+                      <Link 
+                        to="/terms-conditions" 
+                        className="text-sm text-muted-foreground hover:text-primary transition-colors block mb-2"
+                      >
+                        Terms & Conditions
+                      </Link>
+                      <Link 
+                        to="/disclaimer" 
+                        className="text-sm text-muted-foreground hover:text-primary transition-colors block"
+                      >
+                        Disclaimer
+                      </Link>
+                    </div>
+                  </nav>
+                </SheetContent>
+              </Sheet>
             </div>
-            <div className="flex items-center gap-3">
+          </div>
+        </div>
+
+        {/* Sub-Header with Utility Buttons */}
+        <div className="border-t border-border/30">
+          <div className="container mx-auto px-4 py-2">
+            <div className="flex items-center gap-2 flex-wrap">
               <Button
-                variant="outline"
+                variant="ghost"
                 size="sm"
                 onClick={() => setHistoryOpen(true)}
               >
                 <History className="h-4 w-4 mr-2" />
-                History
+                <span className="hidden sm:inline">History</span>
               </Button>
-              <Button variant="outline" size="sm" onClick={clearAll}>
+              <Button variant="ghost" size="sm" onClick={clearAll}>
                 <Trash2 className="h-4 w-4 mr-2" />
-                Clear
+                <span className="hidden sm:inline">Clear</span>
               </Button>
               <Link to="/code-examples">
-                <Button variant="outline" size="sm">
+                <Button variant="ghost" size="sm">
                   <Code2 className="h-4 w-4 mr-2" />
-                  Code
+                  <span className="hidden sm:inline">Code</span>
                 </Button>
               </Link>
               <ShareDropdown token={token} disabled={!decoded} />
-              <ThemeToggle />
             </div>
           </div>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-4 py-8 flex-1">
         {/* Full Width JWT Input */}
         <div className="mb-6">
           <JwtInput 
@@ -362,6 +480,9 @@ const Index = () => {
           onClick={() => setHistoryOpen(false)}
         />
       )}
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 };

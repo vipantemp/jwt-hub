@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { Copy, Check, Home } from "lucide-react";
+import { Copy, Check, Home, Shield } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { Footer } from "@/components/Footer";
 
 const CodeExamples = () => {
   const [copiedLanguage, setCopiedLanguage] = useState<string | null>(null);
@@ -243,6 +244,9 @@ func main() {
           </Tabs>
         </Card>
       </main>
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 };
