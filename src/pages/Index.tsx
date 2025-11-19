@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { JwtInput } from "@/components/JwtInput";
@@ -41,6 +41,8 @@ const Index = () => {
   const [historyOpen, setHistoryOpen] = useState(false);
   const [saveDialogOpen, setSaveDialogOpen] = useState(false);
   const [highlightSection, setHighlightSection] = useState<"header" | "payload" | "signature" | null>(null);
+  const [subHeaderVisible, setSubHeaderVisible] = useState(true);
+  const lastScrollY = useRef(0);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -48,6 +50,22 @@ const Index = () => {
     if (stored) {
       setHistory(JSON.parse(stored));
     }
+
+    // Handle scroll for sub-header visibility
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      
+      if (currentScrollY > lastScrollY.current && currentScrollY > 100) {
+        setSubHeaderVisible(false);
+      } else {
+        setSubHeaderVisible(true);
+      }
+      
+      lastScrollY.current = currentScrollY;
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
@@ -257,50 +275,40 @@ const Index = () => {
               </div>
             </Link>
 
-            {/* Desktop Navigation */}
-            <NavigationMenu className="hidden lg:flex">
-              <NavigationMenuList className="gap-1">
-                <NavigationMenuItem>
-                  <Link 
-                    to="/" 
-                    className="px-4 py-2 text-sm font-medium text-foreground hover:text-primary transition-colors relative group"
-                  >
-                    Home
-                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
-                  </Link>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                  <Link 
-                    to="/code-examples" 
-                    className="px-4 py-2 text-sm font-medium text-foreground hover:text-primary transition-colors relative group"
-                  >
-                    Code Examples
-                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
-                  </Link>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                  <Link 
-                    to="/about-us" 
-                    className="px-4 py-2 text-sm font-medium text-foreground hover:text-primary transition-colors relative group"
-                  >
-                    About
-                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
-                  </Link>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                  <Link 
-                    to="/contact-us" 
-                    className="px-4 py-2 text-sm font-medium text-foreground hover:text-primary transition-colors relative group"
-                  >
-                    Contact
-                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
-                  </Link>
-                </NavigationMenuItem>
-              </NavigationMenuList>
-            </NavigationMenu>
-
-            {/* Right Side Actions */}
+            {/* Desktop Navigation - Moved to Right */}
             <div className="flex items-center gap-2">
+              <NavigationMenu className="hidden lg:flex">
+                <NavigationMenuList className="gap-1">
+                  <NavigationMenuItem>
+                    <Link 
+                      to="/" 
+                      className="px-4 py-2 text-sm font-medium text-foreground hover:text-primary transition-colors relative group"
+                    >
+                      Home
+                      <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
+                    </Link>
+                  </NavigationMenuItem>
+                  <NavigationMenuItem>
+                    <Link 
+                      to="/about-us" 
+                      className="px-4 py-2 text-sm font-medium text-foreground hover:text-primary transition-colors relative group"
+                    >
+                      About
+                      <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
+                    </Link>
+                  </NavigationMenuItem>
+                  <NavigationMenuItem>
+                    <Link 
+                      to="/contact-us" 
+                      className="px-4 py-2 text-sm font-medium text-foreground hover:text-primary transition-colors relative group"
+                    >
+                      Contact
+                      <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
+                    </Link>
+                  </NavigationMenuItem>
+                </NavigationMenuList>
+              </NavigationMenu>
+
               <ThemeToggle />
               
               {/* Mobile Menu */}
@@ -317,12 +325,6 @@ const Index = () => {
                       className="text-lg font-medium hover:text-primary transition-colors"
                     >
                       Home
-                    </Link>
-                    <Link 
-                      to="/code-examples" 
-                      className="text-lg font-medium hover:text-primary transition-colors"
-                    >
-                      Code Examples
                     </Link>
                     <Link 
                       to="/about-us" 
@@ -364,24 +366,34 @@ const Index = () => {
         </div>
 
         {/* Sub-Header with Utility Buttons */}
-        <div className="border-t border-border/30">
+        <div 
+          className={`border-t border-border/30 transition-all duration-300 ${
+            subHeaderVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2 h-0 overflow-hidden'
+          }`}
+        >
           <div className="container mx-auto px-4 py-2">
-            <div className="flex items-center gap-2 flex-wrap">
+            <div className="flex items-center justify-end gap-2 flex-wrap">
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={() => setHistoryOpen(true)}
+                className="gap-2"
               >
-                <History className="h-4 w-4 mr-2" />
+                <History className="h-4 w-4" />
                 <span className="hidden sm:inline">History</span>
               </Button>
-              <Button variant="ghost" size="sm" onClick={clearAll}>
-                <Trash2 className="h-4 w-4 mr-2" />
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={clearAll}
+                className="gap-2"
+              >
+                <Trash2 className="h-4 w-4" />
                 <span className="hidden sm:inline">Clear</span>
               </Button>
               <Link to="/code-examples">
-                <Button variant="ghost" size="sm">
-                  <Code2 className="h-4 w-4 mr-2" />
+                <Button variant="ghost" size="sm" className="gap-2">
+                  <Code2 className="h-4 w-4" />
                   <span className="hidden sm:inline">Code</span>
                 </Button>
               </Link>

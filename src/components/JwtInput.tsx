@@ -19,6 +19,29 @@ const getHighlightClass = (section: "header" | "payload" | "signature" | null) =
   return colors[section];
 };
 
+const renderColoredToken = (token: string, highlightSection: "header" | "payload" | "signature" | null) => {
+  if (!token || !highlightSection) return token;
+  
+  const parts = token.split(".");
+  if (parts.length !== 3) return token;
+
+  const colorClasses = {
+    header: "text-pink-300",
+    payload: "text-pink-500",
+    signature: "text-green-500"
+  };
+
+  return (
+    <>
+      <span className={highlightSection === "header" ? colorClasses.header : ""}>{parts[0]}</span>
+      <span>.</span>
+      <span className={highlightSection === "payload" ? colorClasses.payload : ""}>{parts[1]}</span>
+      <span>.</span>
+      <span className={highlightSection === "signature" ? colorClasses.signature : ""}>{parts[2]}</span>
+    </>
+  );
+};
+
 export function JwtInput({ value, onChange, highlightSection }: JwtInputProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -52,14 +75,26 @@ export function JwtInput({ value, onChange, highlightSection }: JwtInputProps) {
         </Label>
         <ClipboardPaste className="h-4 w-4 text-muted-foreground" />
       </div>
-      <Textarea
-        ref={textareaRef}
-        id="jwt-input"
-        placeholder="Paste your JWT token here (Bearer token supported, e.g., Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...)"
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className={`min-h-[140px] font-mono text-lg md:text-xl leading-relaxed resize-none transition-colors ${getHighlightClass(highlightSection)}`}
-      />
+      <div className="relative">
+        <Textarea
+          ref={textareaRef}
+          id="jwt-input"
+          placeholder="Paste your JWT token here (Bearer token supported, e.g., Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...)"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          className={`min-h-[140px] font-mono text-lg md:text-xl leading-relaxed resize-none transition-colors ${getHighlightClass(highlightSection)} ${
+            highlightSection ? 'text-transparent caret-foreground' : ''
+          }`}
+        />
+        {highlightSection && value && (
+          <div 
+            className="absolute inset-0 pointer-events-none p-3 font-mono text-lg md:text-xl leading-relaxed overflow-hidden whitespace-pre-wrap break-all"
+            aria-hidden="true"
+          >
+            {renderColoredToken(value, highlightSection)}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
