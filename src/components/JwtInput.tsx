@@ -26,18 +26,18 @@ const renderColoredToken = (token: string, highlightSection: "header" | "payload
   if (parts.length !== 3) return token;
 
   const colorClasses = {
-    header: "text-pink-300",
-    payload: "text-pink-500",
-    signature: "text-green-500"
+    header: "text-pink-300 transition-colors duration-100",
+    payload: "text-pink-500 transition-colors duration-100",
+    signature: "text-green-500 transition-colors duration-100"
   };
 
   return (
     <>
-      <span className={highlightSection === "header" ? colorClasses.header : ""}>{parts[0]}</span>
-      <span>.</span>
-      <span className={highlightSection === "payload" ? colorClasses.payload : ""}>{parts[1]}</span>
-      <span>.</span>
-      <span className={highlightSection === "signature" ? colorClasses.signature : ""}>{parts[2]}</span>
+      <span className={`transition-colors duration-100 ${highlightSection === "header" ? colorClasses.header : ""}`}>{parts[0]}</span>
+      <span className="transition-colors duration-100">.</span>
+      <span className={`transition-colors duration-100 ${highlightSection === "payload" ? colorClasses.payload : ""}`}>{parts[1]}</span>
+      <span className="transition-colors duration-100">.</span>
+      <span className={`transition-colors duration-100 ${highlightSection === "signature" ? colorClasses.signature : ""}`}>{parts[2]}</span>
     </>
   );
 };
