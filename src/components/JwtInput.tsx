@@ -82,13 +82,13 @@ export function JwtInput({ value, onChange, highlightSection }: JwtInputProps) {
           placeholder="Paste your JWT token here (Bearer token supported, e.g., Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...)"
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          className={`min-h-[140px] font-mono text-lg md:text-xl leading-relaxed resize-none transition-colors ${getHighlightClass(highlightSection)} ${
+          className={`min-h-[140px] font-mono text-lg md:text-xl leading-relaxed resize-none transition-all duration-100 ${getHighlightClass(highlightSection)} ${
             highlightSection ? 'text-transparent caret-foreground' : ''
           }`}
         />
         {highlightSection && value && (
           <div 
-            className="absolute inset-0 pointer-events-none p-3 font-mono text-lg md:text-xl leading-relaxed overflow-hidden whitespace-pre-wrap break-all"
+            className="absolute inset-0 pointer-events-none p-3 font-mono text-lg md:text-xl leading-relaxed overflow-hidden whitespace-pre-wrap break-all transition-all duration-100"
             aria-hidden="true"
           >
             {renderColoredToken(value, highlightSection)}

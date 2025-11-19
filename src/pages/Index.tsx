@@ -282,7 +282,7 @@ const Index = () => {
                   <NavigationMenuItem>
                     <Link 
                       to="/" 
-                      className="px-4 py-2 text-sm font-medium text-foreground hover:text-primary transition-colors relative group"
+                      className="px-4 py-2 text-sm font-medium text-foreground hover:text-blue-500 transition-colors duration-200 relative group"
                     >
                       Home
                       <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
@@ -291,7 +291,7 @@ const Index = () => {
                   <NavigationMenuItem>
                     <Link 
                       to="/about-us" 
-                      className="px-4 py-2 text-sm font-medium text-foreground hover:text-primary transition-colors relative group"
+                      className="px-4 py-2 text-sm font-medium text-foreground hover:text-blue-500 transition-colors duration-200 relative group"
                     >
                       About
                       <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
@@ -300,7 +300,7 @@ const Index = () => {
                   <NavigationMenuItem>
                     <Link 
                       to="/contact-us" 
-                      className="px-4 py-2 text-sm font-medium text-foreground hover:text-primary transition-colors relative group"
+                      className="px-4 py-2 text-sm font-medium text-foreground hover:text-blue-500 transition-colors duration-200 relative group"
                     >
                       Contact
                       <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
@@ -322,19 +322,19 @@ const Index = () => {
                   <nav className="flex flex-col gap-4 mt-8">
                     <Link 
                       to="/" 
-                      className="text-lg font-medium hover:text-primary transition-colors"
+                      className="text-lg font-medium hover:text-blue-500 transition-colors duration-200"
                     >
                       Home
                     </Link>
                     <Link 
                       to="/about-us" 
-                      className="text-lg font-medium hover:text-primary transition-colors"
+                      className="text-lg font-medium hover:text-blue-500 transition-colors duration-200"
                     >
                       About Us
                     </Link>
                     <Link 
                       to="/contact-us" 
-                      className="text-lg font-medium hover:text-primary transition-colors"
+                      className="text-lg font-medium hover:text-blue-500 transition-colors duration-200"
                     >
                       Contact Us
                     </Link>
@@ -367,7 +367,7 @@ const Index = () => {
 
         {/* Sub-Header with Utility Buttons */}
         <div 
-          className={`border-t border-border/30 transition-all duration-300 ${
+          className={`border-t border-border/30 transition-all duration-500 ease-in-out ${
             subHeaderVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2 h-0 overflow-hidden'
           }`}
         >
