@@ -41,8 +41,6 @@ const Index = () => {
   const [historyOpen, setHistoryOpen] = useState(false);
   const [saveDialogOpen, setSaveDialogOpen] = useState(false);
   const [highlightSection, setHighlightSection] = useState<"header" | "payload" | "signature" | null>(null);
-  const [subHeaderVisible, setSubHeaderVisible] = useState(true);
-  const lastScrollY = useRef(0);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -50,22 +48,6 @@ const Index = () => {
     if (stored) {
       setHistory(JSON.parse(stored));
     }
-
-    // Handle scroll for sub-header visibility
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      
-      if (currentScrollY > lastScrollY.current && currentScrollY > 100) {
-        setSubHeaderVisible(false);
-      } else {
-        setSubHeaderVisible(true);
-      }
-      
-      lastScrollY.current = currentScrollY;
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
@@ -366,11 +348,7 @@ const Index = () => {
         </div>
 
         {/* Sub-Header with Utility Buttons */}
-        <div 
-          className={`border-t border-border/30 transition-all duration-500 ease-in-out ${
-            subHeaderVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2 h-0 overflow-hidden'
-          }`}
-        >
+        <div className="border-t border-border/30">
           <div className="container mx-auto px-4 py-2">
             <div className="flex items-center justify-end gap-2 flex-wrap">
               <Button
