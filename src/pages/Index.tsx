@@ -403,21 +403,21 @@ const Index = () => {
             {decoded && (
               <>
                 <Collapsible open={!headerCollapsed} onOpenChange={(open) => setHeaderCollapsed(!open)}>
-                  <Card className="glass-card p-4">
+                  <div className="space-y-2">
                     <CollapsibleTrigger asChild>
-                      <Button variant="ghost" className="w-full flex items-center justify-between p-2 hover:bg-muted/50">
+                      <Button variant="ghost" className="w-full flex items-center justify-between p-3 hover:bg-muted/50 rounded-lg border border-border/50">
                         <span className="text-lg font-bold text-header-panel">Header Section</span>
                         {headerCollapsed ? <ChevronDown className="h-5 w-5" /> : <ChevronUp className="h-5 w-5" />}
                       </Button>
                     </CollapsibleTrigger>
-                    <CollapsibleContent className="mt-2">
+                    <CollapsibleContent>
                       <DecodedHeader
                         header={decoded.header}
                         onAlgorithmChange={handleAlgorithmChange}
                         onHover={(hovered) => setHighlightSection(hovered ? "header" : null)}
                       />
                     </CollapsibleContent>
-                  </Card>
+                  </div>
                 </Collapsible>
                 <VerificationSection
                   secret={secret}
