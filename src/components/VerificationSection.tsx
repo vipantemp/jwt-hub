@@ -37,11 +37,28 @@ export function VerificationSection({
   const [showSecret, setShowSecret] = useState(false);
   const [isBase64, setIsBase64] = useState(false);
 
+  // Base64url encoding/decoding helpers
+  const base64urlEncode = (str: string): string => {
+    return btoa(str)
+      .replace(/\+/g, '-')
+      .replace(/\//g, '_')
+      .replace(/=/g, '');
+  };
+
+  const base64urlDecode = (str: string): string => {
+    // Add padding if needed
+    let base64 = str.replace(/-/g, '+').replace(/_/g, '/');
+    while (base64.length % 4) {
+      base64 += '=';
+    }
+    return atob(base64);
+  };
+
   const handleSecretChange = (value: string) => {
     if (isBase64) {
-      // Convert from base64 to string
+      // Convert from base64url to string
       try {
-        const decoded = atob(value);
+        const decoded = base64urlDecode(value);
         onSecretChange(decoded);
       } catch {
         onSecretChange(value);
@@ -51,7 +68,7 @@ export function VerificationSection({
     }
   };
 
-  const displaySecret = isBase64 && secret ? btoa(secret) : secret;
+  const displaySecret = isBase64 && secret ? base64urlEncode(secret) : secret;
 
   return (
     <Card 

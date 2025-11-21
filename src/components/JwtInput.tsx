@@ -33,11 +33,11 @@ const renderColoredToken = (token: string, highlightSection: "header" | "payload
 
   return (
     <>
-      <span className={`transition-colors duration-100 ${highlightSection === "header" ? colorClasses.header : ""}`}>{parts[0]}</span>
-      <span className="transition-colors duration-100">.</span>
-      <span className={`transition-colors duration-100 ${highlightSection === "payload" ? colorClasses.payload : ""}`}>{parts[1]}</span>
-      <span className="transition-colors duration-100">.</span>
-      <span className={`transition-colors duration-100 ${highlightSection === "signature" ? colorClasses.signature : ""}`}>{parts[2]}</span>
+      <span className={`transition-colors duration-300 ease-in-out ${highlightSection === "header" ? colorClasses.header : ""}`}>{parts[0]}</span>
+      <span className="transition-colors duration-300 ease-in-out">.</span>
+      <span className={`transition-colors duration-300 ease-in-out ${highlightSection === "payload" ? colorClasses.payload : ""}`}>{parts[1]}</span>
+      <span className="transition-colors duration-300 ease-in-out">.</span>
+      <span className={`transition-colors duration-300 ease-in-out ${highlightSection === "signature" ? colorClasses.signature : ""}`}>{parts[2]}</span>
     </>
   );
 };
@@ -82,13 +82,13 @@ export function JwtInput({ value, onChange, highlightSection }: JwtInputProps) {
           placeholder="Paste your JWT token here (Bearer token supported, e.g., Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...)"
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          className={`min-h-[140px] font-mono text-lg md:text-xl leading-relaxed resize-none transition-all duration-100 ${getHighlightClass(highlightSection)} ${
+          className={`min-h-[140px] font-mono text-lg md:text-xl leading-relaxed resize-none transition-all duration-300 ease-in-out ${getHighlightClass(highlightSection)} ${
             highlightSection ? 'text-transparent caret-foreground' : ''
           }`}
         />
         {highlightSection && value && (
           <div 
-            className="absolute inset-0 pointer-events-none p-3 font-mono text-lg md:text-xl leading-relaxed overflow-hidden whitespace-pre-wrap break-all transition-all duration-100"
+            className="absolute inset-0 pointer-events-none p-3 font-mono text-lg md:text-xl leading-relaxed overflow-hidden whitespace-pre-wrap break-all transition-all duration-300 ease-in-out"
             aria-hidden="true"
           >
             {renderColoredToken(value, highlightSection)}
