@@ -39,12 +39,18 @@ export function HelpDialog() {
                   <p className="text-sm text-muted-foreground mb-3">
                     Paste your JWT token to decode and edit it in real-time. The editor supports Bearer tokens and automatically highlights different sections (Header, Payload, Signature) with color coding.
                   </p>
-                  <div className="bg-muted/50 rounded-md p-3 text-xs font-mono">
-                    <span className="text-pink-500">header</span>
-                    <span className="text-muted-foreground">.</span>
-                    <span className="text-pink-600">payload</span>
-                    <span className="text-muted-foreground">.</span>
-                    <span className="text-green-500">signature</span>
+                  {/* Visual Example */}
+                  <div className="bg-muted/20 border border-border/50 rounded-lg p-4 space-y-2">
+                    <div className="text-xs font-mono break-all">
+                      <span className="text-pink-500">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9</span>
+                      <span className="text-muted-foreground">.</span>
+                      <span className="text-pink-600">eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIn0</span>
+                      <span className="text-muted-foreground">.</span>
+                      <span className="text-green-500">SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c</span>
+                    </div>
+                    <div className="text-xs text-muted-foreground">
+                      Hover over sections to see color highlighting
+                    </div>
                   </div>
                 </div>
               </div>
@@ -61,7 +67,18 @@ export function HelpDialog() {
                   <p className="text-sm text-muted-foreground mb-3">
                     Save and manage up to 20 JWT tokens with custom names. Your history is stored locally and persists between sessions. Click the History button to view, load, or delete saved tokens.
                   </p>
-                  <ul className="text-xs text-muted-foreground space-y-1 list-disc list-inside">
+                  {/* Visual Example */}
+                  <div className="bg-muted/20 border border-border/50 rounded-lg p-3 space-y-2">
+                    <div className="flex items-center justify-between text-xs p-2 bg-background/50 rounded">
+                      <span className="font-medium">Production Token</span>
+                      <span className="text-muted-foreground">2 days ago</span>
+                    </div>
+                    <div className="flex items-center justify-between text-xs p-2 bg-background/50 rounded">
+                      <span className="font-medium">Test API Token</span>
+                      <span className="text-muted-foreground">1 week ago</span>
+                    </div>
+                  </div>
+                  <ul className="text-xs text-muted-foreground space-y-1 list-disc list-inside mt-3">
                     <li>Save tokens with custom names</li>
                     <li>Quick load from sidebar</li>
                     <li>Maximum 20 entries (oldest removed first)</li>
@@ -81,7 +98,25 @@ export function HelpDialog() {
                   <p className="text-sm text-muted-foreground mb-3">
                     Access ready-to-use code snippets for implementing JWT verification and encoding in multiple programming languages including JavaScript, TypeScript, Python, Java, and more.
                   </p>
-                  <ul className="text-xs text-muted-foreground space-y-1 list-disc list-inside">
+                  {/* Visual Example */}
+                  <div className="bg-muted/20 border border-border/50 rounded-lg p-3 font-mono text-xs overflow-x-auto">
+                    <div className="text-purple-400">const</div>{" "}
+                    <span className="text-foreground">jwt</span>{" "}
+                    <span className="text-muted-foreground">=</span>{" "}
+                    <span className="text-blue-400">require</span>
+                    <span className="text-muted-foreground">(</span>
+                    <span className="text-green-400">'jsonwebtoken'</span>
+                    <span className="text-muted-foreground">);</span>
+                    <br />
+                    <span className="text-purple-400">const</span>{" "}
+                    <span className="text-foreground">token</span>{" "}
+                    <span className="text-muted-foreground">=</span>{" "}
+                    <span className="text-foreground">jwt</span>
+                    <span className="text-muted-foreground">.</span>
+                    <span className="text-yellow-400">verify</span>
+                    <span className="text-muted-foreground">(...);</span>
+                  </div>
+                  <ul className="text-xs text-muted-foreground space-y-1 list-disc list-inside mt-3">
                     <li>Multi-language support</li>
                     <li>Copy code with one click</li>
                     <li>Working examples for each language</li>
@@ -101,11 +136,28 @@ export function HelpDialog() {
                   <p className="text-sm text-muted-foreground mb-3">
                     Share your JWT tokens easily through multiple methods:
                   </p>
-                  <ul className="text-xs text-muted-foreground space-y-1 list-disc list-inside">
-                    <li>Generate QR codes for mobile scanning</li>
-                    <li>Export to JSON or text files</li>
-                    <li>Copy shareable links</li>
-                  </ul>
+                  {/* Visual Example */}
+                  <div className="bg-muted/20 border border-border/50 rounded-lg p-3">
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className="w-16 h-16 bg-background border-2 border-border rounded flex items-center justify-center text-xs font-bold">
+                        QR
+                      </div>
+                      <div className="flex-1 text-xs space-y-1">
+                        <div className="flex items-center gap-2">
+                          <div className="w-3 h-3 bg-primary/20 rounded-full" />
+                          <span className="text-muted-foreground">Generate QR Code</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <div className="w-3 h-3 bg-primary/20 rounded-full" />
+                          <span className="text-muted-foreground">Export to JSON/TXT</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <div className="w-3 h-3 bg-primary/20 rounded-full" />
+                          <span className="text-muted-foreground">Copy Shareable Link</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </Card>
@@ -121,7 +173,17 @@ export function HelpDialog() {
                   <p className="text-sm text-muted-foreground mb-3">
                     Monitor your token expiration in real-time with live countdown timers. Edit expiration dates with an interactive date picker, and see warnings when tokens are expired or about to expire.
                   </p>
-                  <ul className="text-xs text-muted-foreground space-y-1 list-disc list-inside">
+                  {/* Visual Example */}
+                  <div className="bg-muted/20 border border-border/50 rounded-lg p-3 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-medium">Expiration (exp)</span>
+                      <span className="text-xs text-orange-500 font-mono">2024-12-31 23:59:59</span>
+                    </div>
+                    <div className="bg-orange-500/10 border border-orange-500/20 rounded px-2 py-1 text-xs text-orange-600 dark:text-orange-400 text-center">
+                      ⏱️ Expires in 2 days, 5 hours, 23 minutes
+                    </div>
+                  </div>
+                  <ul className="text-xs text-muted-foreground space-y-1 list-disc list-inside mt-3">
                     <li>Live countdown timer</li>
                     <li>Visual expiration warnings</li>
                     <li>Easy date modification with calendar picker</li>
