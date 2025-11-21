@@ -8,9 +8,11 @@ import { VerificationSection } from "@/components/VerificationSection";
 import { HistorySidebar } from "@/components/HistorySidebar";
 import { SaveHistoryDialog } from "@/components/SaveHistoryDialog";
 import { Footer } from "@/components/Footer";
+import { HelpDialog } from "@/components/HelpDialog";
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { History, Trash2, Shield, Code2, Menu } from "lucide-react";
+import { History, Trash2, Shield, Code2, Menu, ChevronDown, ChevronUp } from "lucide-react";
 import { ShareDropdown } from "@/components/ShareDropdown";
 import { decodeToken, verifyToken, encodeToken } from "@/lib/jwt-utils";
 import { DecodedJwt, JwtHistoryItem, Algorithm, JwtPayload } from "@/types/jwt";
@@ -24,6 +26,7 @@ import {
   SheetContent,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 
 const SAMPLE_JWT =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOjE3MzIwNTYwMDB9.4Adcj0vt4z7hFLWKZOFS8Y8lKz3_tJKGnJ9qjh_XZQM";
@@ -41,6 +44,7 @@ const Index = () => {
   const [historyOpen, setHistoryOpen] = useState(false);
   const [saveDialogOpen, setSaveDialogOpen] = useState(false);
   const [highlightSection, setHighlightSection] = useState<"header" | "payload" | "signature" | null>(null);
+  const [headerCollapsed, setHeaderCollapsed] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -292,6 +296,7 @@ const Index = () => {
               </NavigationMenu>
 
               <ThemeToggle />
+              <HelpDialog />
               
               {/* Mobile Menu */}
               <Sheet>
@@ -397,11 +402,23 @@ const Index = () => {
           <div className="lg:col-span-4 grid md:grid-cols-2 lg:grid-cols-1 gap-6">
             {decoded && (
               <>
-                <DecodedHeader
-                  header={decoded.header}
-                  onAlgorithmChange={handleAlgorithmChange}
-                  onHover={(hovered) => setHighlightSection(hovered ? "header" : null)}
-                />
+                <Collapsible open={!headerCollapsed} onOpenChange={(open) => setHeaderCollapsed(!open)}>
+                  <Card className="glass-card p-4">
+                    <CollapsibleTrigger asChild>
+                      <Button variant="ghost" className="w-full flex items-center justify-between p-2 hover:bg-muted/50">
+                        <span className="text-lg font-bold text-header-panel">Header Section</span>
+                        {headerCollapsed ? <ChevronDown className="h-5 w-5" /> : <ChevronUp className="h-5 w-5" />}
+                      </Button>
+                    </CollapsibleTrigger>
+                    <CollapsibleContent className="mt-2">
+                      <DecodedHeader
+                        header={decoded.header}
+                        onAlgorithmChange={handleAlgorithmChange}
+                        onHover={(hovered) => setHighlightSection(hovered ? "header" : null)}
+                      />
+                    </CollapsibleContent>
+                  </Card>
+                </Collapsible>
                 <VerificationSection
                   secret={secret}
                   algorithm={algorithm}
