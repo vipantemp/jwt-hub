@@ -28,16 +28,16 @@ export function HelpDialog() {
         </DialogHeader>
         <ScrollArea className="h-[60vh] pr-4">
           <div className="space-y-6">
-            {/* Editor Feature */}
+            {/* Editor Button */}
             <Card className="p-4 border-l-4 border-l-primary">
               <div className="flex items-start gap-3">
                 <div className="p-2 bg-primary/10 rounded-lg">
                   <Edit className="h-6 w-6 text-primary" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-lg font-semibold mb-2">JWT Editor</h3>
+                  <h3 className="text-lg font-semibold mb-2">Editor Button</h3>
                   <p className="text-sm text-muted-foreground mb-3">
-                    Paste your JWT token to decode and edit it in real-time. The editor supports Bearer tokens and automatically highlights different sections (Header, Payload, Signature) with color coding.
+                    Allows users to write, edit, and preview their code or content with ease. Paste your JWT token to decode and edit it in real-time with automatic color-coded highlighting.
                   </p>
                   {/* Visual Example */}
                   <div className="bg-muted/20 border border-border/50 rounded-lg p-4 space-y-2">
@@ -56,16 +56,16 @@ export function HelpDialog() {
               </div>
             </Card>
 
-            {/* History Feature */}
+            {/* History Button */}
             <Card className="p-4 border-l-4 border-l-blue-500">
               <div className="flex items-start gap-3">
                 <div className="p-2 bg-blue-500/10 rounded-lg">
                   <History className="h-6 w-6 text-blue-500" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-lg font-semibold mb-2">History Management</h3>
+                  <h3 className="text-lg font-semibold mb-2">History Button</h3>
                   <p className="text-sm text-muted-foreground mb-3">
-                    Save and manage up to 20 JWT tokens with custom names. Your history is stored locally and persists between sessions. Click the History button to view, load, or delete saved tokens.
+                    Shows previously generated versions, allowing users to revisit or restore older outputs anytime. Save up to 20 JWT tokens with custom names, stored locally and persisting between sessions.
                   </p>
                   {/* Visual Example */}
                   <div className="bg-muted/20 border border-border/50 rounded-lg p-3 space-y-2">
@@ -79,24 +79,24 @@ export function HelpDialog() {
                     </div>
                   </div>
                   <ul className="text-xs text-muted-foreground space-y-1 list-disc list-inside mt-3">
-                    <li>Save tokens with custom names</li>
-                    <li>Quick load from sidebar</li>
-                    <li>Maximum 20 entries (oldest removed first)</li>
+                    <li>Revisit previously saved tokens</li>
+                    <li>Quick load and restore functionality</li>
+                    <li>Maximum 20 entries with auto-cleanup</li>
                   </ul>
                 </div>
               </div>
             </Card>
 
-            {/* Code Examples Feature */}
+            {/* Code Page */}
             <Card className="p-4 border-l-4 border-l-purple-500">
               <div className="flex items-start gap-3">
                 <div className="p-2 bg-purple-500/10 rounded-lg">
                   <Code2 className="h-6 w-6 text-purple-500" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-lg font-semibold mb-2">Code Examples</h3>
+                  <h3 className="text-lg font-semibold mb-2">Code Page</h3>
                   <p className="text-sm text-muted-foreground mb-3">
-                    Access ready-to-use code snippets for implementing JWT verification and encoding in multiple programming languages including JavaScript, TypeScript, Python, Java, and more.
+                    Displays the formatted code output, making it easier to review and share. Access ready-to-use code snippets for implementing JWT verification in multiple programming languages.
                   </p>
                   {/* Visual Example */}
                   <div className="bg-muted/20 border border-border/50 rounded-lg p-3 font-mono text-xs overflow-x-auto">
@@ -117,24 +117,24 @@ export function HelpDialog() {
                     <span className="text-muted-foreground">(...);</span>
                   </div>
                   <ul className="text-xs text-muted-foreground space-y-1 list-disc list-inside mt-3">
-                    <li>Multi-language support</li>
-                    <li>Copy code with one click</li>
-                    <li>Working examples for each language</li>
+                    <li>Multi-language code examples</li>
+                    <li>One-click copy functionality</li>
+                    <li>Formatted output for easy review</li>
                   </ul>
                 </div>
               </div>
             </Card>
 
-            {/* Share Feature */}
+            {/* Share Button */}
             <Card className="p-4 border-l-4 border-l-green-500">
               <div className="flex items-start gap-3">
                 <div className="p-2 bg-green-500/10 rounded-lg">
                   <Share2 className="h-6 w-6 text-green-500" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-lg font-semibold mb-2">Share & Export</h3>
+                  <h3 className="text-lg font-semibold mb-2">Share Button</h3>
                   <p className="text-sm text-muted-foreground mb-3">
-                    Share your JWT tokens easily through multiple methods:
+                    Enables users to quickly share their content or code with others through a unique link. Export tokens via QR code, JSON file, or shareable URL.
                   </p>
                   {/* Visual Example */}
                   <div className="bg-muted/20 border border-border/50 rounded-lg p-3">
@@ -162,16 +162,16 @@ export function HelpDialog() {
               </div>
             </Card>
 
-            {/* Expiration Time Feature */}
+            {/* Expiration Time Extension */}
             <Card className="p-4 border-l-4 border-l-orange-500">
               <div className="flex items-start gap-3">
                 <div className="p-2 bg-orange-500/10 rounded-lg">
                   <Clock className="h-6 w-6 text-orange-500" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-lg font-semibold mb-2">Expiration Tracking</h3>
+                  <h3 className="text-lg font-semibold mb-2">Expiration Time Extension</h3>
                   <p className="text-sm text-muted-foreground mb-3">
-                    Monitor your token expiration in real-time with live countdown timers. Edit expiration dates with an interactive date picker, and see warnings when tokens are expired or about to expire.
+                    Allows extending the lifetime of saved or shared content, ensuring it remains accessible for longer. Monitor expiration in real-time with live countdown timers and edit dates with an interactive calendar picker.
                   </p>
                   {/* Visual Example */}
                   <div className="bg-muted/20 border border-border/50 rounded-lg p-3 space-y-2">
@@ -184,9 +184,9 @@ export function HelpDialog() {
                     </div>
                   </div>
                   <ul className="text-xs text-muted-foreground space-y-1 list-disc list-inside mt-3">
-                    <li>Live countdown timer</li>
-                    <li>Visual expiration warnings</li>
-                    <li>Easy date modification with calendar picker</li>
+                    <li>Extend token lifetime easily</li>
+                    <li>Live countdown with warnings</li>
+                    <li>Interactive date picker for modifications</li>
                   </ul>
                 </div>
               </div>
