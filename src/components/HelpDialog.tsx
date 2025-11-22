@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -11,9 +12,29 @@ import { HelpCircle, History, Code2, Share2, Clock, Edit } from "lucide-react";
 import { ScrollArea } from "./ui/scroll-area";
 import { Card } from "./ui/card";
 
+const HELP_DIALOG_SEEN_KEY = "help-dialog-seen";
+
 export function HelpDialog() {
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    // Check if user has seen the help dialog before
+    const hasSeenDialog = localStorage.getItem(HELP_DIALOG_SEEN_KEY);
+    if (!hasSeenDialog) {
+      setOpen(true);
+    }
+  }, []);
+
+  const handleOpenChange = (newOpen: boolean) => {
+    setOpen(newOpen);
+    // Mark as seen when dialog is closed
+    if (!newOpen) {
+      localStorage.setItem(HELP_DIALOG_SEEN_KEY, "true");
+    }
+  };
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
         <Button variant="ghost" size="icon" className="h-9 w-9">
           <HelpCircle className="h-4 w-4" />

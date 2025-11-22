@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { Copy, Check, Home, Shield } from "lucide-react";
+import { Copy, Check, Home } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { Footer } from "@/components/Footer";
+import { SyntaxHighlighter } from "@/components/SyntaxHighlighter";
 
 const CodeExamples = () => {
   const [copiedLanguage, setCopiedLanguage] = useState<string | null>(null);
@@ -230,14 +231,14 @@ func main() {
                     className="absolute top-2 right-2 z-10"
                   >
                     {copiedLanguage === language ? (
-                      <Check className="h-4 w-4 text-success" />
+                      <Check className="h-4 w-4 text-green-500" />
                     ) : (
                       <Copy className="h-4 w-4" />
                     )}
                   </Button>
-                  <pre className="p-6 pt-12 rounded-lg bg-muted/30 overflow-x-auto text-sm font-mono border border-border/50">
-                    <code>{code}</code>
-                  </pre>
+                  <div className="p-6 pt-12 rounded-lg bg-muted/30 overflow-x-auto border border-border/50">
+                    <SyntaxHighlighter code={code} language={language} />
+                  </div>
                 </div>
               </TabsContent>
             ))}
