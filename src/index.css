@@ -129,6 +129,64 @@ All colors MUST be HSL.
     --sidebar-border: 240 4% 16%;
     --sidebar-ring: 217 91% 60%;
   }
+
+  .dark-grey {
+    --background: 215 20% 20%;
+    --foreground: 210 40% 95%;
+
+    --card: 215 20% 25%;
+    --card-foreground: 210 40% 95%;
+
+    --popover: 215 20% 25%;
+    --popover-foreground: 210 40% 95%;
+
+    --primary: 187 75% 55%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 215 20% 30%;
+    --secondary-foreground: 210 40% 95%;
+
+    --muted: 215 20% 30%;
+    --muted-foreground: 215 15% 70%;
+
+    --accent: 187 75% 55%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 75% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 215 20% 35%;
+    --input: 215 20% 30%;
+    --ring: 187 75% 55%;
+
+    /* JWT Panel Colors - Dark Grey */
+    --header-panel: 217 85% 60%;
+    --header-panel-foreground: 0 0% 100%;
+    --header-panel-bg: 217 85% 25%;
+    
+    --payload-panel: 142 65% 50%;
+    --payload-panel-foreground: 0 0% 100%;
+    --payload-panel-bg: 142 65% 25%;
+    
+    --signature-panel: 0 75% 60%;
+    --signature-panel-foreground: 0 0% 100%;
+    --signature-panel-bg: 0 75% 25%;
+
+    /* Status Colors - Dark Grey */
+    --success: 142 65% 50%;
+    --success-foreground: 0 0% 100%;
+    --warning: 38 85% 55%;
+    --warning-foreground: 0 0% 100%;
+
+    --sidebar-background: 215 20% 22%;
+    --sidebar-foreground: 210 40% 95%;
+    --sidebar-primary: 224 76% 55%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 215 20% 28%;
+    --sidebar-accent-foreground: 210 40% 95%;
+    --sidebar-border: 215 20% 32%;
+    --sidebar-ring: 217 85% 60%;
+  }
 }
 
 @layer base {
